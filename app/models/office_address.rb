@@ -1,0 +1,2 @@
+class OfficeAddress < Address
+end

@@ -1,0 +1,6 @@
+var d = document.querySelector('#add_to_wishlist_<%= @product.product.id %>')
+var e = d.querySelector('.show_to_').classList
+e.add('fa-regular')
+e.remove('fa-solid')
+e.add('text-secondary')
+e.remove('text-danger')

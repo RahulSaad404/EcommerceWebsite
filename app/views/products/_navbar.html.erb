@@ -1,0 +1,114 @@
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css'>
+<nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+  <div class="container-fluid">
+    <% if current_user.present? %>
+    <%= link_to (image_tag('profile_image2.png', :size => "50x50")),user_profile_edit_path %> 
+    <%else%>
+    <%= link_to (image_tag('profile_image2.png', :size => "50x50")),new_user_session_path %>
+    <%end%>
+    <a class="navbar-brand ms-5" href="/">Ecommerce</a>
+
+      <%= form_tag(search_path, :method => "get") do %>
+      <div class="input-group ms-5">
+        <%=search_field_tag :search, params[:search], placeholder: "Search", class: "form-control" %>
+        <div class="input-group-btn ">
+          <%= button_tag "Search ", :class => 'btn btn-info glyphicon glyphicon-search', :product_name => nil %>
+        </div>
+      </div>                             
+      <%end%>
+     
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> 
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ms-2 mb-2 mb-lg-0">
+      <li class="nav-item ms-5">
+        <a class="nav-link active ms-5" aria-current="page" href="/" >Home</a>
+      </li>
+                                             
+      <li class="nav-item dropdown ms-5">
+        <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+        <ul class="dropdown-menu dropdown-menu-dark ms-5">
+        <% Category.all.each do |category| %>
+        <li> <%= link_to (category.category_name),root_path(:id => category.id), class: "dropdown-item" %></li>
+        <%end%>
+        </ul>
+        </li>
+
+        <li class="nav-item ms-2">  
+          <a class="nav-link active ms-5"  href="/about_us_users" style="width: 75px;">About us</a>
+        </li>
+
+        <li class="nav-item ms-2">  
+          <a class="nav-link active ms-5"  href="/placedorders" style="width: 75px;">My Orders</a>
+        </li>
+
+        <!-- <li class="nav-item ms-2">  
+          <#% link_to placedorders_path do %>
+          <a class="nav-link active">My Orders</a>
+          <#%end%>
+        </li> -->
+
+        <% if current_user.present? %>
+          <li class="nav-item  mt-3 ms-5">
+          <a style= "margin-left: 40px;">
+          <%= link_to show_cart_orders_path  do %>
+            <i class="fa-solid fa-cart-shopping fa-xl text-light"></i>
+          <% end %></a>
+          </li>
+        <%else%>
+          <li class="nav-item  mt-3 ms-5">
+          <a style= "margin-left: 45px;">
+          <%= link_to new_user_session_path  do %>
+            <i class="fa-solid fa-cart-shopping fa-xl text-light"></i>
+          <% end %>
+          </a>
+          </li>
+        <%end%>
+        
+        <div class="ms-4 align-items-center">
+          <% if current_user.present? %>
+            <% if current_user.wishlist.present? %>
+              <li class="nav-item  mt-3 ms-5">
+              <a style= "margin-left: 45px;">
+              <%= link_to show_wishlist_path do %>
+                <i class="fa-regular fa-heart fa-xl text-light"></i>
+              <%end%>
+              </a>
+              </li>
+            <%else%>
+              <li class="nav-item ms-5 mt-3">
+              <a style= "margin-left: 45px;">
+              <%= link_to add_wishlist_path do %>
+                <i class="fa-regular fa-heart fa-xl text-light"></i>
+              <%end%>
+              </a>
+              </li>
+            <%end%> 
+        <%else%>                      
+          <li class="nav-item ms-4 mt-2">
+          <a style= "margin-left: 45px;">
+          <%= link_to new_user_session_path do %>
+            <i class="fa-regular fa-heart fa-xl text-light"></i>
+          <%end%>
+          </a>
+          </li>
+        <%end%>
+          </ul>
+        </div>
+
+      <div class="ms-5 align-items-center">
+        <% if user_signed_in? %>
+          <%= link_to 'sign out', destroy_user_session_path, :method => :delete, data: {:confirm => "You sure?" },class:"btn btn-danger btn-sm " %>
+        <% else %>
+          <%=button_to 'sign in', new_user_session_path,class:"btn btn-outline-success btn-sm " %>
+        <% end %>
+      </div>
+  </div>
+  </div>
+  </div>
+</nav>
+<script defer src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js'></script>
+
+

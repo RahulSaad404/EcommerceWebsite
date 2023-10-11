@@ -1,0 +1,66 @@
+<section class="h-100 h-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card">
+          <div class="card-body p-4 ">
+            <div class="row">
+              <div class="col-lg-7">
+                <h5 class="mb-3">Wishlist</a></h5>
+                <hr>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                </div>
+                <% @counter=0 %>
+                <% @wishlistproducts.each do |order| %>
+                  <% @counter = @counter+1 %>
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                          <div>
+                          <img>
+                          <%= image_tag order.product.image, height: 60, width: 60 %>
+                          </div>
+                         <div class="ms-3 ", style="width: 100px;">
+                          <h6><%= order.product.product_name %></h6>
+                          <p class="small mb-0 "></p><span style="color: grey;"><h8><%= order.product.product_brand %></h8>
+                          <% if order.product.stock == 0 or order.product.stock.nil? %>
+                            <p class="small mb-0 "></p><span style="color: red;"><h8>Out of Stock</h8>
+                          <%end%> 
+                          </div>
+                      </div> 
+                      <div class="d-flex flex-row align-items-center">
+                        <div style="width: 5px;"> <span style="color: green;">
+                          <%= link_to 'Add to Cart', orders_path(:id => order.product.id),method: :post, remote: true, class: "dropdown-item go_to_#{order.product.id}", id: "product_#{order.product.id}", local: false %>
+                        </span>
+                        </div> 
+                      </div>
+
+                      <div class="d-flex flex-row align-items-center">
+                      <div style="width: 80px;"> <span style="color: red;">
+                      <%= link_to 'Remove' ,destroy_product_wishlist_path(id: order.product.id), class: "dropdown-item" %></span>
+                      </div> 
+                      </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <%end%>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-dark text-center text-white fixed-bottom">
+  <div class="container p-4 pb-0">
+  <div class="text-center p-3" >
+    © 2023 Copyright:
+    <a class="text-white" href="https://rubyonrails.com/">rubyonrails.com</a>
+  </div>
+</footer>

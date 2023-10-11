@@ -1,0 +1,170 @@
+<% if flash.any? %>
+<% flash.each do |type, msg| %>
+<div class="alert alert-danger" role="alert">
+  <%= msg %>
+</div>
+<% end %>
+<% end %>
+<% order = current_user.orders.find_by(order_status:"created") %>
+<% if order.products_orders.empty? %>
+   <h5> No products added to cart </h5> 
+<%else%>
+
+ <section class="h-100 h-custom" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="card mb-4">
+    <div class="ms-5 mt-2 mb-2">
+    <h5>Deliver To -- </h5>
+    <h7>Name:  <%= current_user.first_name %></h7><br>
+    <% if order.order_address.present? %>
+    <h7>Address:  <%= order.order_address.order_add %></h7>
+    <%else%>
+    <h7>Address: <%= current_user.address %>
+    <!-- <h7>Address:  <#%= current_user.orders.where(order_status:'placed').last.order_address.order_address.address %></h7> -->
+    <%end%> 
+    
+    <div class="d-flex justify-content-between">
+      <%= link_to 'Change',show_address_path,class: "btn btn-outline-secondary btn-sm" %>
+    </div><span>
+  </div>
+</div> 
+
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card">
+          <div class="card-body p-4">
+            <div class="row">
+              <div class="col-lg-7">
+                <h5 class="mb-3">Cart</a></h5>
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <p class="mb-1">Shopping cart</p>
+                  </div>
+                </div>
+
+                <% @counter=0 %>
+                <% @orderproducts.each do |order| %>
+                <% @counter = @counter+1 %>
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <div>
+                          <img>
+                          <%= image_tag order.product.image, height: 60, width: 60 %>
+                        </div>
+
+                        <div class="ms-3 ", style="width: 200px;">
+                          <h6><%= order.product.product_name %></h6>
+                          <p class="small mb-0 "></p><span style="color: grey;"><h8><%= order.product.product_brand %></h8>
+                          <% if order.product.stock == 0 or order.product.stock.nil? or order.product.stock < order.quantity %>
+                            <p class="small mb-0 "></p><span style="color: red;"><h8>Not Available </h8>
+                          <%end%> 
+                        </div>
+                      </div>
+
+                      <div class="d-flex mb-4" style="width: 200px">
+                        <%=link_to update_total_price_path(id: order.id, old_quantity:order.quantity,unit_price: order.unit_price,
+                          new_quantity: order.quantity-1),method: :put, class:"btn btn-outline-secondary", onclick: "this.parentNode.querySelector('input[type=number]').stepDown()" do %>-
+                          <%end%>
+
+                      <div class="form-outline  btn-square-md" style="width: 50px">
+                        <input id="form1" min="1"  value="<%= order.quantity%>" type="number" class="form-control" >
+                      </div>
+
+                        <%= link_to update_total_price_path(id: order.id,unit_price: order.unit_price, old_quantity:order.quantity, new_quantity: order.quantity+1), method: :put, class:"btn btn-outline-secondary",onclick: "this.parentNode.querySelector('input[type=number]').stepUp()" do%> + 
+                        <% end %>
+                      </div>
+
+                      <div class="d-flex flex-row align-items-center">
+                        <div style="width: 100px;">
+                          <h6 class="fw-normal mb-0" style="text-color:green">₹<%=order.total_price %></h6>
+                        </div>
+                        <div style="width: 50px;"> <span style="color: red;">
+                        <%= link_to 'Remove' ,destroy_productsorder_path(id: order.id), class: "dropdown-item" %></span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <%end%>
+              </div>
+
+              <% order=current_user.orders.find_by(order_status: 'created') %>
+              <div class="col-lg-5">
+                <div class="card bg-primary text-white rounded-3">
+                  <div class="card-body" style="background-color:black;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h5 class="mb-0">Order Summary</h5>
+                    </div>
+                    <p class="mb-0">You have <%=@counter %> items in your cart</p>
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Total items</p>
+                      <p class="mb-2"><%= @counter%> items</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Sub Total</p>
+                      <p class="mb-2">₹<%= order.sub_total %></p>
+                    </div>
+                    
+                    <% if order.shipping_charge == 0 %>
+                    <div class="d-flex justify-content-between" >
+                      <p class="mb-2">Shipping</p>
+                      <span style="color: green;"><p class="mb-2"> Free </p>
+                    </div>
+                    <%else%> 
+                    <div class="d-flex justify-content-between" >
+                      <p class="mb-2">Shipping</p>
+                      <span style="color: green;"><p class="mb-2">₹<%= order.shipping_charge %></p>
+                    </div>
+                    <%end%>
+                    <div class="d-flex justify-content-between mb-4">
+                      <p class="mb-2">Tax(<%=Tax.last.tax_percent%>%)</p>
+                      <p class="mb-2">₹<%= order.taxes %> </p>
+                    </div> 
+                    <div class="d-flex justify-content-between mb-4">
+                      <p class="mb-2">Total(including taxes)</p>
+                      <p class="mb-2"style= "margin-left: 150px;"><h4>₹<%= order.total_bill%></h4> </p>
+                    </div> 
+                    <div class="d-flex justify-content-between">
+
+                      <% if order.products.where(stock:0).present?%>
+                        <%= link_to 'Place Order',payment_path(:id => order.id), method: :post,class: "btn btn-info btn-block btn-lg", style: "pointer-events: none;background-color: lightblue;" %><br><br>
+                       <span style="color: red;"><h6> First remove Not Availbale Products from Cart </h6>
+                      <%else%>
+                        
+                        <%#= link_to 'Place Order',payment_method_path,class: "btn btn-info btn-block btn-lg" %>
+                        <%= link_to 'Place Order', payment_method_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'btn btn-info btn-block btn-lg'}  %>
+                        <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content"></div>
+                        </div>
+                        </div>
+                      <%end%>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-dark text-center text-white ">
+  <div class="container p-4 pb-0">
+  <div class="text-center p-3" >
+    © 2023 Copyright:
+    <a class="text-white" href="https://rubyonrails.com/">rubyonrails.com</a>
+  </div>
+</footer>
+
+<%end%>

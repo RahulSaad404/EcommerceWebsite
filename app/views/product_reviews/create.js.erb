@@ -1,0 +1,11 @@
+debugger
+$('.review').append("<tr><td><p><h7><%= @review.review %></h7></p></td><td style='padding:0 35px 0 35px;'><p><a data-toggle='modal' data-target= '#modal-window' class='btn btn-outline-secondary btn-sm' data-remote=true href=/product_reviews/<%= @review.id%>/edit?product_id=<%= @product%> >edit</a></p></td><td><a class='btn btn-outline-danger btn-sm' rel=nofollow data-method=delete href=/product_reviews/<%= @review.id%>?product_id=<%= @product%>>delete</a></p></div></td></tr></table>")
+$('#body_input').val('');
+
+
+//$('.review').append("<%= link_to edit_product_review_path(:id => @review.id,:product_id => @product) do%> edit <%end%>")
+//$('.review').append("<%= link_to 'delete', product_review_path(:id => @review.id,:product_id => @product),method: :delete%>")
+
+//$('.review').append("<table><p><h7><%= @review.review %></h7></p><p><a data-toggle='modal' data-target= '#modal-window' class='btn btn-outline-secondary btn-sm' data-remote=true href=/product_reviews/<%= @review.id%>/edit?product_id=<%= @product%> >edit</a></p> <a class='btn btn-outline-danger btn-sm' rel=nofollow data-method=delete href=/product_reviews/<%= @review.id%>?product_id=<%= @product%>>delete</a></p></div></table>")
+
+//"<p><h7> @review.review</h7></p><a href=/product_reviews/<%= @review.id%> /edit?product_id=<%= @product%>>edit</a><a rel=nofollow data-method=delete href=/product_reviews/?product_id=<%= @product%>>delete</a>"

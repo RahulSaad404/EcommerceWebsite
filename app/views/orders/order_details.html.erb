@@ -1,0 +1,89 @@
+<% if flash.any? %>
+<% flash.each do |type, msg| %>
+<div class="alert alert-danger" role="alert">
+  <%= msg %>
+</div>
+<% end %>
+<% end %>
+<section class="h-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-10 col-xl-8">
+        <div class="card" style="border-radius: 10px;">
+
+          <div class="card-header px-4 py-5">
+            <h5 class="text-muted mb-0">Thanks for your Order</h5>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0" style="color: green"><%= @order_details.order_status %></p>
+            </div> 
+          <% @order_details.products_orders.each do |order| %>
+            <div class="card shadow-0 border mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <%= link_to (image_tag order.product.image, height:60, width:60), product_path(order.product.id)  %>
+                  </div> 
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0"><%= order.product.product_name %></p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0"><%= order.product.product_brand %></p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Qty: <%= order.quantity %></p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Price: ₹<%= order.product.product_price %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <%end%>
+          
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">Order Details</p>
+            </div>
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="text-muted mb-0">Order id : <%= @order_details.order_trans_id %></p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Total: </span>₹<%= @order_details.sub_total %></p>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0">Order Date : <%= @order_details.updated_at %></p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">taxes: </span>₹<%= @order_details.taxes %></p>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0">Order Status : <%= @order_details.order_status %></p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Shipping Charge: </span>₹<%=  @order_details.shipping_charge%></p>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0">Delivered Address : <%= current_user.addresses.first.address %></p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0">Payment Method : <%= @order_details.payment_method %></p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0"><% if @order_details.paid == true %>Payment Status : paid</p>
+              <%else%>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0">Payment Status : Not Paid</p>
+              <%end%>
+            </div>
+          </div>
+          <div class="card-footer border-0 px-4 py-5"
+            style="background-color: black; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+              paid: <span class="h2 mb-0 ms-2">₹<%= @order_details.total_bill %></span></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- @order_details.order_address.order_add -->

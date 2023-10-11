@@ -1,0 +1,20 @@
+debugger
+$('.go_to_'+<%= @product.id %>).val('Go to cart').parent('form').attr({"method": "GET", "action": "/orders/show_cart","data-remote":"false"})
+
+
+//Object.assign(form, {method: 'GET', action: '/orders'});
+//form.setAttibute('method', 'GET')
+//form.setAttibute('action', '/orders')
+
+
+//.attr('method','get')//$('.show_to_').location.replace('/orders')
+ //window.location.replace('./orders');
+ //$('.show_cart_'+<%= @product.id %>)
+ //window.location.assign('/orders');
+ //window.location.href = "<%= order_path(@product.id) %>"
+// $(document).ready(function(){
+//   $('.go_to').click(function(){
+//    $(this).val=("Go to Cart"); //not .button2
+//   });
+// });
+

@@ -1,0 +1,25 @@
+<section class="container">
+  <section class="row justify-content-center ">
+    <section class="col-lg-4 border my-5">
+<%= form_with model: @address,url: address_path(@address),method: :put, local: true do |form| %>
+  <p>
+  <%= form.label :Type %><br>
+  <%= form.radio_button :type, "HomeAddress" %>
+  <%= form.label :type, "Home" %>  
+  <%= form.radio_button :type, "OfficeAddress" %>
+  <%= form.label :type, "Office" %>
+  </p>
+  <p>
+    <%= form.label :Address %><br>
+    <%= form.text_area :address %>
+  </p>
+  <p>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  </p>
+  <p>
+    <%= form.submit%>
+  </p>
+<%end%>
+</section>
+</section>
+</section>

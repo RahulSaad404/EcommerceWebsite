@@ -1,0 +1,49 @@
+<section class="h-100" style="background-color: #eee;">
+  <div class="container h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-normal mb-0 text-black">My Orders</h3>
+        </div>
+
+        <% @orders.each do |order| %>
+        <div class="card rounded-3 mb-4">
+          <div class="card-body p-4">
+            <div class="row d-flex justify-content-between align-items-center">
+  
+              <div class="col-md-3 col-lg-2 col-xl-2 ">
+                <h7 class="mb-0 mr-0" style="width: 10px">Order id:<span style="color: grey;"><%=order.order_trans_id%></h7>
+              </div>              
+
+              <div class="col-md-3 col-lg-2 ">
+                <h7 class="mb-0"style="width: 150px">Total Bill:<span style="color: grey;">₹<%=order.total_bill%></h7>
+              </div></span>
+                                        
+              <div class="col-md-3 col-lg-2">
+                <h7 class="mb-0"style="width: 200px">Status:<span style="color: seagreen;"><%=order.order_status%></h7>
+              </div></span>
+              
+              <div class="col-md-3 col-lg-2"><span style="color: royalblue;">
+                <strong><h7 class="mb-0"><%= link_to 'Details' ,order_details_path(:id => order.id), class: "dropdown-item" %></h7></strong>
+              </div></span>
+              <% if order.order_status == 'delivered' %>
+              <div class="col-md-3 col-lg-2">
+                <strong><h7 class="mb-0"><%= link_to 'Cancel' ,cancel_order_path(:id => order.id), class: "dropdown-item", style: "pointer-events: none;color: #ff000054;" %></h7></strong>
+                </div></span>
+              <%else%>
+               <div class="col-md-3 col-lg-2">
+                <strong><h7 class="mb-0"><%= link_to 'Cancel' ,cancel_order_path(:id => order.id), class: "dropdown-item", style: "pointer-events: auto;color: #ff0000;" %></h7></strong>
+              </div></span>
+              <%end%>
+            </div>
+          </div>
+        </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+

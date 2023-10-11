@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">x</button>
+  <h4 class="modal-title" id="myModalLabel">Review</h4>
+</div>
+<div class="modal-body">
+  <%= form_with model: @review, local: true do |form| %>
+  <p>
+    <%= form.label :Review %><br>
+    <%= form.text_area :review %>
+  </p>
+  <p>
+    <%= form.hidden_field :product_id, value: @product.id %>
+  </p>
+  <p>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  </p>
+  <p>
+    <%= form.submit%>
+  </p>
+<%end%>
+</div>
+

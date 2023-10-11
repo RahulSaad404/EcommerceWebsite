@@ -1,0 +1,47 @@
+ <%= stylesheet_link_tag "productshow.css" %> 
+<section class="container">
+  <div class="left-half">
+  <div class="card ms-5 mt-5" style="width: 28rem;height: 20rem">
+  <img class="card-img-top" ><%= image_tag @product.image , height: 350, width: 350, class: "card-img-top"%>
+		<div class="btn-group ">
+  	<a href="#" class="btn btn-warning">Add to Cart</a>
+  	<a href="#" class="btn btn-success">Buy Now</a>
+  </div>
+</div>
+  </div>
+  <div class="right-half">
+    <div class="centered mt-5">
+  	<p>
+  		<strong>Product Name:</strong>
+    	<%= @product.product_name %>
+  	</p>
+  	<p>
+  		<strong>Brand:</strong>
+			<%= @product.product_brand %>
+		</p>
+		<p>
+			<strong>Price:</strong>
+			<%= @product.product_price %>
+		</p>
+		<p>
+			<strong>Description:</strong>
+			<%= @product.discription %>
+		</p>
+		<p>
+			<strong>Seller:</strong>
+			<%= @product.seller %>
+		</p>
+  </div>
+
+  <% if current_user.present? %>
+  	<%current_user.orders.where(order_status:'delivered').each do |order| %>
+  		<%if order.products.include? @product %>
+  			<%= render 'product_reviews/new' %>
+  		<%end%>
+  		<%break if order.products.include? @product%>
+  <%end%>
+  <%end%>
+
+  <%= render 'product_reviews/show', object: @product %>            
+  </div>
+</section>

@@ -1,0 +1,17 @@
+$('#add_to_wishlist_<%= @product.id %>').attr({"data-method":"GET","href":" /destroy_product_wishlist?id=<%= @product.id %>"})
+var ch = document.querySelector('#add_to_wishlist_<%= @product.id %>')
+var d = ch.querySelector('.show_to_').classList
+d.add('fa-solid')
+d.remove('fa-regular')
+d.add('text-danger')
+d.remove('text-secondary')
+d.remove('show_to')
+
+
+                              
+      
+
+
+
+
+
