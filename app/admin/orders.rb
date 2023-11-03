@@ -40,7 +40,6 @@ ActiveAdmin.register Order do
           u.input :email, input_html: { disabled: true }
           u.input :first_name, input_html: { disabled: true }
         end
-       
       end
       f.actions         # adds the 'Submit' and 'Cancel' buttons
    end

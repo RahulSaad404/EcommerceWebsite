@@ -25,7 +25,7 @@ ActiveAdmin.register ShippingCharge do
   show do 
     attributes_table do
       row :ship_charge
-      row :less_than
+      row :greater_than
       row :created_at
       row :updated_at
     end
