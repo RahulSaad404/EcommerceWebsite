@@ -1,3 +1,4 @@
+
 <% if flash.any? %>
 <% flash.each do |type, msg| %>
 <div class="alert alert-success" role="alert">
@@ -7,9 +8,11 @@
 <% end %>
 
 <div class="row mt-5 ">
-	 <% @products.each do |product| %>    
+	 <% @products.each do |product| %>   
+
 	<div class=" mb-5  ms-5 card mb-3" style="width: 18rem;align-content: center;">
 	  <%= link_to (image_tag product.image, height: 180, width: 220), product_path(product) %>
+
 	  <div class="card-body">
 	    <h5 class="card-title mb-1"><%= product.product_name  %></h5>
 	    <p class="card-text mb-1 text-muted">Brand: <%= product.product_brand %></p>
@@ -76,25 +79,37 @@
 	    		<%# if current_user.notifies.where(product_id:product.id) %>
 	    		<!-- current_user.notifies.first.product == product -->
 	    		<% current_user.notifies.each do |notify| %>
-	  			
+	    		<%debugger%>
+	    		<% if product.notifies.include?notify %>
 	  			<%# if notify.product.present? %>
-	    			<%if notify.product == product %>
+	    			<%# if notify.product == product %>
 	    			<!-- Notify.joins(:product).where("product_id IN (?)",product.id) -->
+	    			<%# break if notify.product == product %>
 	    				<%= link_to 'Notify me' , notify_me_path(:id => product.id), class: "dropdown-item", remote: true, method: :post, style: "pointer-events: none;color: #0d50b347;"%>
 	        	<%else%>
 	    				<%= link_to 'Notify me' , notify_me_path(:id => product.id) , id: "notify_#{product.id}", class: "dropdown-item", remote: true, method: :post, style: "pointer-events: auto;color: #0d50b3;"%>
 	    			<%end%>
-	    			<%# break if notify.product == product %>
 	    		<%end%>	
 	    		<%end%>
 	    <%end%>
 	    <br>
+
 	    <% if product.stock <= 10 and product.stock > 0 %>
 	    	<span style="color: red;"><h7>Hurry Up,Only <%=product.stock%> left</h7>
 	    <%end%>
+
 	  </div>
 	</div>
+
 	<%end%>
+</div>
+
+<div class="container">
+  <div class="row">
+    <%#= render 'index' %>
+  </div>
+
+  <%= paginate @products %>
 </div>
 
 <footer class="bg-dark text-center text-white ">

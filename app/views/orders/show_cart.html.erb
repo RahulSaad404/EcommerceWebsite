@@ -24,7 +24,7 @@
     <%end%> 
     
     <div class="d-flex justify-content-between">
-      <%= link_to 'Change',show_address_path,class: "btn btn-outline-secondary btn-sm" %>
+      <%= link_to 'Change',show_address_path(:id => current_user.id),class: "btn btn-outline-secondary btn-sm" %>
     </div><span>
   </div>
 </div> 
