@@ -69,7 +69,6 @@ Rails.application.configure do
   ENV['razorpay_id'] = 'rzp_test_CzInVsmPYOMFQA'
   ENV['razorpay_secret_key'] = 'dWHYz8PZQX2MICmVPMLHMq3F'
 
-
 end
 
 

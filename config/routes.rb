@@ -10,6 +10,10 @@ Rails.application.routes.draw do
     get :show_cart, on: :collection
   end
 
+  namespace :api do 
+    resources :products
+  end
+
   root 'products#index'
   get 'about_us_users', to: 'products#about', as: 'about_us_users'
   get '/search', to: 'products#search'
