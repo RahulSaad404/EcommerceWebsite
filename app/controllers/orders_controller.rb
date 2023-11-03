@@ -1,19 +1,18 @@
-
 class OrdersController < ApplicationController
   before_action :find_create_order, only: [:show_cart, :add_shipping_address, :create, :remove_product_from_cart, :update_product_quantity, :payment_method, :update_payment_method_as_COD, :cancel_order ]
 
   def create
-    @product = Product.find(params[:id])
+    @product = Product.find_by_id(params[:id])
     if @product.present?
       @created_order.products_orders.create(product_id: @product.id, quantity: 1, unit_price: @product.product_price, total_price: @product.product_price)
       update_order_total               
       respond_to do |format|
         format.js
       end
-    else
-      flash[:alert] = "Product is removed by seller"
-      render 'products/index'
-    end                                  
+     else
+       flash[:alert] = "Product is removed by seller"
+       render 'products/index'
+     end                                  
   end                                 
 
   def show_cart 
@@ -21,7 +20,7 @@ class OrdersController < ApplicationController
   end
 
   def add_shipping_address
-    address = Address.find(params[:id])
+    address = Address.find_by_id(params[:id])
     if address.present?
       if @created_order.order_address.present?
         @created_order.order_address.update(address_id:address.id, order_add:address.address)
@@ -56,26 +55,23 @@ class OrdersController < ApplicationController
   end
 
   def order_details
-    order = Order.find(params[:id])
-    if order.present?
-      @order_details = Order.find(params[:id])
-    else
+    order = Order.find_by_id(params[:id])
+    if order.nil?
       flash[:alert] = "Order is not available"
+    else
+      @order_details = Order.find(params[:id])
     end
   end
 
   def cancel_order
     order = Order.find(params[:id])
     order.update(order_status:'cancelled')
-    # order.products.each do |product|
-    #   product.stock + 
-    # end
     flash[:alert] = "Order cancelled"
     redirect_to :action => 'order_details'
   end
 
   def update_product_quantity
-    product_order = ProductsOrder.find(params[:id])
+    product_order = ProductsOrder.find_by_id(params[:id])
     if product_order.present?
       if params[:new_quantity].to_i > product_order.product.stock 
         flash[:alert] = "Not available"
@@ -90,12 +86,12 @@ class OrdersController < ApplicationController
   end                               
                                         
   def remove_product_from_cart 
-    product_order = ProductsOrder.find(params[:id])
-    if product_order.present?
+    product_order = ProductsOrder.find_by_id(params[:id])
+    if product_order.nil?
+      flash[:alert] = "Product already deleted from admin"
+    else
       product_order.destroy        
       update_order_total              
-    else
-      flash[:alert] = "Product already deleted from admin"
     end
       redirect_to :action => 'show_cart'
   end

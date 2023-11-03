@@ -19,7 +19,7 @@ class AddressesController < ApplicationController
 
 	def update
     @address = Address.find(params[:id])
-    if @address.update(address_params)
+    if @address.update(create_address_params)
       redirect_to :action => 'show_address'
     else
       render 'edit'
@@ -33,7 +33,8 @@ class AddressesController < ApplicationController
   end
 
 	def show_address
-		@addresses = current_user.addresses
+		user = User.find(params[:id])
+		@addresses = user.addresses
 	end
 
 	private

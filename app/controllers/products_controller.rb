@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
       @category = Category.find(params[:id])
       @products= @category.products
     else
-  	  @products = Product.all
+  	  @products = Product.page(params[:page]).per(10)
     end
   end
 
